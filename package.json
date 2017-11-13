@@ -1,0 +1,27 @@
+{
+  "name": "college",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "vue": "^2.5.3",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "css-loader": "*",
+    "style-loader": "*",
+    "url-loader": "*",
+    "vue-loader": "*",
+    "vue-template-compiler": "^2.5.3",
+    "webpack": "*",
+    "webpack-dev-server": "*"
+  }
+}
