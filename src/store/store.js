@@ -4,7 +4,10 @@ Vue.use(Vuex);
 let store = new Vuex.Store({
     state: {
         school_range_obj: [],
-        school_area_obj: []
+        school_area_obj: [],
+        overall_search: [],
+        college_search: [],
+        major_search: []
     },
     mutations: {
         update_school_range: function (state, data) {
@@ -37,23 +40,18 @@ let store = new Vuex.Store({
         },
         reset_school_area: function (state, list) {
             let arr = JSON.parse(JSON.stringify(state.school_area_obj));
-            arr[0].selected = false;
             if (list.index === 0) {
-                arr.map((item, index) => {
+                arr = arr.map((item, index) => {
                     item.selected = (index === 0);
                     return item;
                 });
             } else {
-                arr.map((item, index) => {
-                    if (list.index === index) {
-                        item.selected = list.selected;
-                    }
-                    return item;
-                });
+                arr[0].selected = false;
+                arr[list.index].selected = list.selected;
             }
             let selected_none = true;
             arr.forEach((item, index) => {
-                if (index === 0) { return };
+                // if (index === 0) { return };
                 if (item.selected) {
                     selected_none = false;
                 }

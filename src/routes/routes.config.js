@@ -13,7 +13,7 @@ export var routes = [
         name: 'college',
         path: '/college',
         component: {
-            template: '<h1>高校检索页面</h1>'
+            template: '<h1>高校检索</h1>'
         }
     },
     {

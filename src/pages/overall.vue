@@ -15,15 +15,27 @@
             <school-range :school-range-list="$store.state.school_range_obj"></school-range>
             <school-area :school-area-list="$store.state.school_area_obj"></school-area>
         </div>
+        <h4 class="analyze">选考科目分析</h4>
+        <p class="remind">科目比例：要求所选选考科目的专业总数/条件范围内专业总数。以专业为例：经济统计学专业历史所占比例为66.7%，意为选考历史，66.7%的经济统计学专业均可报考。</p>
+        <subject-table :overall-search-arr = 'overall_search_arr'></subject-table>
+        <subject-table-wrap :overall-search-title ='overall_search_title'>
+            <subject-table-rows v-for="(item, index) in overall_search_rows" :key="index" :overall-search-rows ='item'></subject-table-rows>
+        </subject-table-wrap>
     </div>
 </template>
 <script>
 import school_range from '../components/school_range';
 import school_area from '../components/school_area';
+import subject_table from '../components/subject_table';
+import subject_table_wrap from '../components/subject_table_wrap';
+import subject_table_rows from '../components/subject_table_rows';
 export default {
-    data: () =>{
+    data: () => {
         return {
-            major_range: {a:"不限", b:"本科", c:"专科"}
+            major_range: {a:"不限", b:"本科", c:"专科"},
+            overall_search_arr: [],
+            overall_search_title:[],
+            overall_search_rows:[]
         }
     } ,
     methods:{
@@ -35,10 +47,10 @@ export default {
         }
     },
     computed: {
-        
-        school_area_fn: function(){
-            
-        }
+        // 'overall_search_arr': function(){
+        //     return [this.$store.state.overall_search.slice(0,21), this.$store.state.overall_search.slice(21)]
+        // }
+        // this.overall_search_arr = [this.$store.state.overall_search.slice(0,21), this.$store.state.overall_search.slice(21)];
     },
     created: function () {
         var vm = this;
@@ -54,11 +66,25 @@ export default {
             })
             vm.$store.commit('update_school_area', area);
         });
-        
+        this.$http.get('src/data/overall.json').then(function (res) {
+            let data = res.data.result.analysisData;
+            let row = parseInt(data.length / 21);
+            vm.overall_search_arr = [data.slice(0,21), data.slice(21)];
+        });
+        this.$http.get('src/data/overall.json').then(function (res) {
+            let data = res.data.result;
+            vm.overall_search_title = data.title;
+            vm.overall_search_rows = data.rows;
+            console.log(data.rows)
+        });
+
     },
     components:{
         'school-range': school_range,
-        'school-area': school_area
+        'school-area': school_area,
+        'subject-table': subject_table,
+        'subject-table-wrap': subject_table_wrap,
+        'subject-table-rows': subject_table_rows
     }
 }
 </script>
@@ -132,7 +158,16 @@ export default {
     .filter-item:hover{
         background: rgba(0, 160, 92, 1);
         color: #fff;
-    }   
+    }
+    .analyze{
+        line-height: 50px;
+        border-bottom: solid #ccc 1px;
+        font-weight: normal;
+    }
+    .remind{
+        color: #f00;
+        line-height: 36px;
+    }
 </style>
 
 
